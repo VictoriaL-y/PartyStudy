@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="alert profile-alert p-0 alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="profile-container party">
+    
+
+    <div class="profile-backg-img px-3 pb-3">
+        <img class="rounded" src="{{ image_bg_file }}">
+    </div>
+    <div class="media mx-4 d-flex flex-column align-items-center justify-content-center">
+        <img class="rounded-circle ms-4 profile-img" src="{{ image_avatar_file }}">
+        <legend class="pt-3 pb-2 text-center">
+            <h2>&nbsp;&nbsp;&nbsp;{{ party.title }}  <a href="{{ url_for('update_party', party_id=party.id) }}"><i class="fa-regular fa-pen-to-square edit-profile"></i></a></h2>
+        </legend>
+        <!-- <p class="text-secondary">{{ current_user.email }}</p> -->
+        <div class="row px-5 py-4 container-fluid user-data party-page">
+            <div class="col-4">
+                <span>{{ form.title.label }}</span>
+            </div>
+            <div class="col-8">
+                <span>{{ party.title }}</span>
+            </div>
+
+            <div class="col-4">
+                <span>Host</span>
+            </div>
+            <div class="col-8">
+                <span>{{ party.author.username }}</span>
+            </div>
+
+            <div class="col-4">
+                <span>{{ form.date_time.label }}</span>
+            </div>
+            <div class="col-8">
+                <span>{{ party.date_time }}</span>
+            </div>
+
+            <div class="col-4">
+                <span>{{ form.description.label }}</span>
+            </div>
+            <div class="col-8">
+                <span>{{ party.description }}</span>
+            </div>
+
+            <div class="col-4">
+                <span>{{ form.address.label }}</span>
+            </div>
+            <div class="col-8">
+                <span>{{ party.address }}</span>
+            </div>
+
+            <div class="col-4">
+                <span>{{ form.party_languages.label }}</span>
+            </div>
+            <div class="col-8">
+                <span>{{ party.party_languages }}</span>
+            </div>
+
+            <div class="col-4">
+                <span>{{ form.whatsapp_link.label }}</span>
+            </div>
+            <div class="col-8">
+                <span>{{ party.whatsapp_link }}</span>
+            </div>
+
+            <div class="col-4">
+                <span>Participants</span>
+            </div>
+            <div class="col-8">
+                <span></span>
+            </div>
+
+            <div class="form-group pt-0 mt-2 d-flex align-items-center justify-content-center">
+                <a href="{{ url_for('profile') }}"><i class="fa-solid fa-arrow-left back-arrow"></i></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="container-fluid p-0 d-flex justify-content-between bottomInscription">
+    <p>© 2022 Victoria Lipnitsky</p>
+    <a href="{{ url_for('map') }}">Explore the map <i class="fa-solid fa-location-dot"></i></a>
+</div>
+{% endblock %}

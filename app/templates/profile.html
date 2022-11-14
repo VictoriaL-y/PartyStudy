@@ -1,0 +1,195 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="alert profile-alert p-0 alert-{{ category }}" role="alert">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="profile-container">
+
+    <div class="profile-backg-img px-3 pb-3">
+        <img class="rounded" src="{{ image_bg_file }}">
+    </div>
+    <div class="media d-flex flex-column align-items-center justify-content-center">
+        <img class="rounded-circle ms-4 profile-img" src="{{ image_avatar_file }}">
+        <h2 class="pt-3 pb-2 text-center">&nbsp;&nbsp;&nbsp;{{ current_user.username }} <a href="{{ url_for('updateProfile') }}"><i class="fa-regular fa-pen-to-square edit-profile"></i></a></h2>
+        <!-- <p class="text-secondary">{{ current_user.email }}</p> -->
+        <div class="row px-5 py-4 container-fluid user-data">
+            <div class="col-lg-6">
+                <div class="row container-fluid">
+                    <div class="col-5">
+                        <span>Name</span>
+                    </div>
+                    <div class="col-7">
+                        <span>{{ current_user.name }}</span>
+                    </div>
+
+                    <div class="col-5">
+                        <span>Surname</span>
+                    </div>
+                    <div class="col-7">
+                        <span>{{ current_user.surname }}</span>
+                    </div>
+
+                    <div class="col-5">
+                        <span>Email</span>
+                    </div>
+                    <div class="col-7">
+                        <span>{{ current_user.email }}</span>
+                    </div>
+                    
+
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="row container-fluid">
+                    <div class="col-5">
+                        <span>Location</span>
+                    </div>
+                    <div class="col-7">
+                        <span>{{ current_user.location }}</span>
+                    </div>
+
+                    <div class="col-5">
+                        <span>Phone Number</span>
+                    </div>
+                    <div class="col-7">
+                        <span>{{ current_user.phoneNumber }}</span>
+                    </div>
+
+                    <div class="col-5">
+                        <span>Languages</span>
+                    </div>
+                    <div class="col-7">
+                        <span>{{ current_user.languages }}</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row px-5 py-3 container-fluid user-data text-center">
+
+            <!-- <h2 class="pt-3 pb-2 text-center">Party list</h2> -->
+
+            <div class="mb-2">
+                <span class="headList"><strong>Hosting</strong></span>
+                <br>
+                <a href="{{ url_for('new_party') }}"><p class="link-to-creat-party">add new as a host&nbsp;++</p></a>
+            </div>
+
+            <div class="col-2 p-0 mb-2 headColumn">
+                <span><strong>{{ form.title.label }}</strong></span>
+            </div>
+            <div class="col-3 p-0 headColumn">
+                <span><strong>{{ form.date_time.label }}</strong></span>
+            </div>
+            <div class="col-2 p-0 headColumn">
+                <span><strong>Participants</strong></span>
+            </div>
+            <div class="col-3 p-0 headColumn">
+                <span><strong>{{ form.address.label }}</strong></span>
+            </div>
+
+            <div class="col-1 p-0 headColumn">
+                <span><strong>Edit</strong></span>
+            </div>
+            <div class="col-1 p-0 headColumn">
+                <span><strong>Delete</strong></span>
+            </div>
+            <!-- <div class="col-1">
+            </div> -->
+
+
+            {% for party in parties.items %}
+            <div class="col-2 p-0 partyTitle">
+                <a href="{{ url_for('party', party_id=party.id) }}">{{ party.title }}</a>
+            </div>
+            <div class="col-3 p-0">
+                <p>{{ party.date_time }}</p>
+            </div>
+
+            <div class="col-2 p-0">
+                <p></p>
+            </div>
+            <div class="col-3 p-0">
+                <!-- <p>{{ party.date_posted.strftime('%Y-%m-%d') }}</p> -->
+                <p>{{ party.address }}</p>
+            </div>
+            {% if party.author == current_user %}
+            <div class="col-1 editParty">
+                <a href="{{ url_for('update_party', party_id=party.id) }}"><i class="fa-solid fa-pencil"></i></a>
+                <!-- <button type="button" class="btn btn-sm"><i class="fa-solid fa-pencil"></i></button> -->
+            </div>
+            {% else %}
+            <div class="col-1">
+            </div>
+            {% endif %}
+            <div class="col-1 deleteParty">
+                <!-- <a href=""><i class="fa-solid fa-trash"></i></a> -->
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Party?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    You will not be able to recover it. <br> Are you sure?
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="{{ url_for('delete_party', party_id=party.id) }}" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+            <!-- <div class="col-1">
+            </div> -->
+            {% endfor %}
+
+            <div class="pt-2 d-flex justify-content-center party_list_buttons">
+            {% for page_num in parties.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if parties.page == page_num %}
+                    <a class="btn ms-1 me-1 mb-5 current-page" href="{{ url_for('profile', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn ms-1 me-1 mb-5" href="{{ url_for('profile', page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        </div>
+    
+        <div class="mb-2">
+            <span class="headList"><strong>Attending</strong></span>
+        </div>
+        </div>
+
+        
+    </div>
+
+</div>
+
+<div class="container-fluid p-0 d-flex justify-content-between bottomInscription">
+    <p>© 2022 Victoria Lipnitsky</p>
+    <a href="{{ url_for('map') }}">Explore the map <i class="fa-solid fa-location-dot"></i></a>
+</div>
+{% endblock %}

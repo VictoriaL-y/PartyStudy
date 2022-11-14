@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="profile-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert p-0 alert-{{ category }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="content-section">
+        <div id="imageBgPreview" class="profile-backg-img px-3 pb-3">
+            <img class="rounded image-preview__image" src="{{ image_bg_file }}">
+        </div>
+
+            
+
+        <div id="imageAvPreview" class="media d-flex flex-column align-items-center justify-content-center">
+                <img class="rounded-circle ms-4 profile-img image-preview__image" src="{{ image_avatar_file }}">
+        </div>
+
+        <form class="profile-form" action="" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="row px-5 m-0 container-fluid d-flex justify-content-start">
+                <legend class="pt-3 pb-2 p-0 text-center"><h2>{{ legend }}</h2></legend>
+                <div class="col-lg-6">
+                    <!-- Title -->
+                    {{ form.title.label(class="form-control-label pb-1") }}
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control") }}
+                    {% endif %}
+                    
+                    <!-- Date&Time -->
+                    {{ form.date_time.label(class="form-control-label pb-1") }}
+                    {% if form.date_time.errors %}
+                        {{ form.date_time(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.date_time.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.date_time(class="form-control") }}
+                    {% endif %}                
+                </div>
+
+                <div class="col-lg-6">
+                    <!-- Address -->
+                    {{ form.address.label(class="form-control-label pb-1") }}
+                    {% if form.address.errors %}
+                        {{ form.address(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.address.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.address(class="form-control", id="autocomplete", type="text") }}
+                    {% endif %}
+
+                    <!-- Chat's link -->
+                    {{ form.whatsapp_link.label(class="form-control-label pb-1") }}
+                    {% if form.whatsapp_link.errors %}
+                        {{ form.whatsapp_link(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.whatsapp_link.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.whatsapp_link(class="form-control") }}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <!-- Party languages -->
+                    {{ form.party_languages.label(class="form-control-label pb-1") }}
+                    {% if form.party_languages.errors %}
+                        {{ form.party_languages(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.party_languages.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.party_languages(class="form-control") }}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <!-- Description -->
+                    {{ form.description.label(class="form-control-label pb-1") }}
+                    {% if form.description.errors %}
+                        {{ form.description(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.description.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.description(class="form-control") }}
+                    {% endif %}
+                </div>
+
+            </fieldset>
+            <div class="form-group pt-4 pb-4 mt-4 d-flex align-items-center justify-content-center">
+                <a href="{{ url_for('profile') }}"><i class="fa-solid fa-arrow-left back-arrow"></i></a>
+                {{ form.submit(class="btn btn-outline-info")}}
+            </div>
+        </form>
+    </div>
+</div>
+    <!-- <h1>{{ current_user.username }}</h1> -->
+
+
+<div class="container-fluid p-0 d-flex justify-content-between bottomInscription">
+    <p>© 2022 Victoria Lipnitsky</p>
+    <a href="{{ url_for('map') }}">Explore the map <i class="fa-solid fa-location-dot"></i></a>
+</div>
+
+<!-- <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHqpKOkQkUoej4vtzDCeZt7IakdCYy2u0&libraries=places&callback=initAutocomplete" defer></script> -->
+{% endblock %}

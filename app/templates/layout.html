@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap.min.css" integrity="sha512-CpIKUSyh9QX2+zSdfGP+eWLx23C8Dj9/XmHjZY2uDtfkdLGo0uY12jgcnkX9vXOgYajEKb/jiw67EYm+kBf+6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Events nearby</title>
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/main.css') }}">
+</head>
+<body>
+    <div class="container-fluid d-flex justify-content-end align-items-center sign-log-buttons top-buttons">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('profile') }}"><i class="fa-solid fa-circle-user profile-icon"></i></a>
+        <a href="{{ url_for('logout') }}" class="logout-link">Log Out</a>
+        {% else %}
+        <p class="pt-2">New to StudyParty?</p>
+        <div class="container btn-container">
+            <a class="btn" href="{{ url_for('register') }}">Sign Up</a>
+            <a class="btn" href="{{ url_for('login') }}" role="button">Log In</a>
+        </div>
+        {% endif %}
+</div>
+        {% block content %}
+        {% endblock %}
+    <!-- Pooper.js, Bootstrap.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" integrity="sha512-6UofPqm0QupIL0kzS/UIzekR73/luZdC6i/kXDbWnLOJoqwklBK6519iUnShaYceJ0y4FaiPtX/hRnV/X/xlUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.1/js/bootstrap.min.js" integrity="sha512-vyRAVI0IEm6LI/fVSv/Wq/d0KUfrg3hJq2Qz5FlfER69sf3ZHlOrsLriNm49FxnpUGmhx+TaJKwJ+ByTLKT+Yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--Lazy loading-->
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.2/dist/lazyload.min.js"></script>
+    <script type="text/javascript">
+        var lazyLoadInstance = new LazyLoad({
+            elements_selector: ".lazy"
+        });
+    </script>
+    <script src="{{ url_for('static', filename='scripts/myscript.js')}}"></script>
+
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHqpKOkQkUoej4vtzDCeZt7IakdCYy2u0&libraries=places&callback=initialize" async
+    defer></script>
+
+</body>
+</html>

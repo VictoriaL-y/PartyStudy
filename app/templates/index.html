@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    body:before {
+        content: '';
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+    }
+
+    .top-buttons {
+        opacity: 0;
+    }
+</style>
+<div class="container-fluid p-0 d-flex flex-column align-items-center welcome-div">
+    <h2 class="mb-4">Hi, this is <span>StudyParty!</span></h2>
+    <h2 class="mb-4">The best way to search for friends for learning together</h2>
+    <h1 class="mb-4">Want to join the Party?</h1>
+    <div class="container d-flex justify-content-center sign-log-buttons">
+        <a class="btn" href="{{ url_for('register') }}">Sign Up</a>
+        <a class="btn" href="{{ url_for('login') }}" role="bytton">Log In</a>
+    </div>
+</div>
+
+<div class="container-fluid p-0 d-flex justify-content-between bottomInscription">
+    <p>© 2022 Victoria Lipnitsky</p>
+    <a href="{{ url_for('map') }}">Explore the map <i class="fa-solid fa-location-dot"></i></a>
+</div>
+
+
+{% endblock %}

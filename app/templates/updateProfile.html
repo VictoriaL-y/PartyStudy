@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="profile-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert p-0 alert-{{ category }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="content-section">
+        <div id="imageBgPreview" class="profile-backg-img px-3 pb-3">
+            <img class="rounded image-preview__image" src="{{ image_bg_file }}">
+        </div>
+
+            
+
+        <div id="imageAvPreview" class="media d-flex flex-column align-items-center justify-content-center">
+                <img class="rounded-circle ms-4 profile-img image-preview__image" src="{{ image_avatar_file }}">
+        </div>
+
+        <form class="profile-form" action="" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <!-- form-group -->
+            <fieldset class="row px-5 m-0 container-fluid d-flex align-items-center justify-content-start">
+                <label for="bg_picture">
+                    <i class="fa-solid fa-camera edit-photo edit-photo-bg rounded-circle"></i>
+                </label>
+                {{ form.bg_picture(class="form-control-file") }}
+                <input id="bg_picture" name="inpFileBg" type="file"/>
+                {% if form.bg_picture.errors %}
+                    {% for error in form.bg_picture.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                    {% endfor %}
+                {% endif %}
+    
+                <label for="avatar_picture">
+                    <i class="fa-solid fa-camera edit-photo edit-photo-user rounded-circle"></i>
+                </label>
+                {{ form.avatar_picture(class="form-control-file") }}
+                <input id="avatar_picture" name="inpFileAv" type="file"/>
+                {% if form.avatar_picture.errors %}
+                    {% for error in form.avatar_picture.errors %}
+                        <span class="text-danger">{{ error }}</span></br>
+                    {% endfor %}
+                {% endif %}
+
+                <legend class="pt-3 pb-2 p-0 text-center"><h2>Profile Info</h2></legend>
+                <div class="col-lg-6">
+                    <!-- Username -->
+                    {{ form.username.label(class="form-control-label pb-1") }}
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control") }}
+                    {% endif %}
+
+                    <!-- Name -->
+                    {{ form.name.label(class="form-control-label pb-1") }}
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control") }}
+                    {% endif %}
+                    
+                    <!-- Surname -->
+                    {{ form.surname.label(class="form-control-label pb-1") }}
+                    {% if form.surname.errors %}
+                        {{ form.surname(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.surname.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.surname(class="form-control") }}
+                    {% endif %}
+                    
+                </div>
+
+
+                <div class="col-lg-6">
+                    <!-- Email -->
+                    {{ form.email.label(class="form-control-label pb-1") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control") }}
+                    {% endif %}
+                    
+                    <!-- Phone Number -->
+                    {{ form.phoneNumber.label(class="form-control-label pb-1") }}
+                    {% if form.phoneNumber.errors %}
+                        {{ form.phoneNumber(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.phoneNumber.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.phoneNumber(class="form-control") }}
+                    {% endif %}
+
+                    <!-- Location -->
+                    {{ form.location.label(class="form-control-label pb-1") }}
+                    {% if form.location.errors %}
+                        {{ form.location(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.location.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.location(class="form-control") }}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <!-- Languages -->
+                    {{ form.languages.label(class="form-control-label pb-1") }}
+                    {% if form.languages.errors %}
+                        {{ form.languages(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.languages.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.languages(class="form-control") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group pt-4 pb-4 mt-4 d-flex align-items-center justify-content-center">
+                <a href="{{ url_for('profile') }}"><i class="fa-solid fa-arrow-left back-arrow"></i></a>
+                {{ form.submit(class="btn btn-outline-info")}}
+            </div>
+
+            
+        </form>
+    </div>
+    <!-- <h1>{{ current_user.username }}</h1> -->
+
+</div>
+
+<div class="container-fluid p-0 d-flex justify-content-between bottomInscription">
+    <p>© 2022 Victoria Lipnitsky</p>
+    <a href="{{ url_for('map') }}">Explore the map <i class="fa-solid fa-location-dot"></i></a>
+</div>
+{% endblock %}
