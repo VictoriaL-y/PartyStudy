@@ -212,7 +212,7 @@
             </div> -->
 
 
-            {% for party in parties.items %}
+            {% for party in parties_2.items %}
                 {% if party.author != current_user %}
                 <div class="col-2 p-0 partyTitle">
                     <a href="{{ url_for('party', party_id=party.id) }}">{{ party.title }}</a>
@@ -268,9 +268,9 @@
             {% endfor %}
 
             <div class="pt-2 d-flex justify-content-center party_list_buttons">
-            {% for page_num in parties.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% for page_num in parties_2.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                 {% if page_num %}
-                    {% if parties.page == page_num %}
+                    {% if parties_2.page == page_num %}
                     <a class="btn ms-1 me-1 mb-4 current-page" href="{{ url_for('profile', page=page_num) }}">{{ page_num }}</a>
                     {% else %}
                         <a class="btn ms-1 me-1 mb-4" href="{{ url_for('profile', page=page_num) }}">{{ page_num }}</a>

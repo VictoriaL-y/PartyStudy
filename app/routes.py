@@ -81,10 +81,12 @@ def logout():
 def profile():
     form = PartyForm()
     page = request.args.get('page', 1, type=int)
-    parties = Party.query.order_by(Party.date_posted.desc()).paginate(page=page, per_page=3)
+    parties = Party.query.filter(Party.author==current_user).order_by(Party.date_posted.desc()).paginate(page=page, per_page=3)
+    page_2 = request.args.get('page_2', 1, type=int)
+    parties_2 = Party.query.filter(Party.author!=current_user).order_by(Party.date_posted.desc()).paginate(page=page_2, per_page=3)
     image_avatar_file = url_for('static', filename='profile_pics/' + current_user.image_avatar_file)
     image_bg_file = url_for('static', filename='profile_pics/' + current_user.image_bg_file)
-    return render_template("profile.html", title="Profile", image_avatar_file=image_avatar_file, image_bg_file=image_bg_file, parties=parties, form=form)
+    return render_template("profile.html", title="Profile", image_avatar_file=image_avatar_file, image_bg_file=image_bg_file, parties=parties, parties_2=parties_2, form=form)
 
 def save_avatar_picture(form_avatar_picture):
     random_hex = secrets.token_hex(8)

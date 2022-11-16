@@ -4,43 +4,7 @@
 // }
 
 
-// function changeBg(input){
-//     let file = $("input[type=file]").get(0).files[0];
-
-//     if(file){
-//       let reader = new FileReader();
-
-//       reader.onload = function(){
-
-//           $("#avatar_picture").attr("src", reader.result);
-//       }
-
-//       reader.readAsDataURL(file);
-//     }
-// }
-
-// function changeAvatar(input){
-//     let file = $("input[type=file]").get(0).files[0];
-
-//     if(file){
-//       let reader = new FileReader();
-
-//       reader.onload = function(){
-//           $("#previewBg").attr("src", reader.result);
-//       }
-
-//       reader.readAsDataURL(file);
-//     }
-// }
-
-// var URL = window.URL || window.webkitURL
-
-// window.swapImage = function (elm) {
-//   var index = elm.dataset.index
-//   // URL.createObjectURL is faster then using the filereader with base64
-//   var url = URL.createObjectURL(elm.files[0])
-//   document.querySelector('img[data-index="'+index+'"]').src = url
-// }
+//Profile's and Background's preview picture
 
 const inpFileBg = document.getElementById("bg_picture");
 const previewBgContainer = document.getElementById("imageBgPreview");
@@ -76,6 +40,7 @@ inpFileAv.addEventListener("change", function () {
 });
 
 
+//Adding markers on the map
 
 var autocomplete;
 var xlng;
@@ -148,6 +113,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
 }
 
+//Automatic suggestion of an address when you filling a field
 
 function initAutocomplete() {
     autocomplete = new google.maps.places.Autocomplete(
@@ -176,5 +142,11 @@ function onPlaceChanged() {
 }
 
 window.initMap = initMap;
+
+
+
+function show(param_div_id) {
+    document.getElementById('main_place').innerHTML = document.getElementById(param_div_id).innerHTML;
+  }
 
 
