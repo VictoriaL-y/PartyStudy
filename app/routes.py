@@ -1,11 +1,14 @@
 import os
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort
+
+from flask import render_template, url_for, flash, redirect, request, abort, jsonify
+from flask_marshmallow import fields
+
 # from flask_googlemaps import GoogleMaps
 # from flask_googlemaps import Map
 from app import app, db, bcrypt, mail
-from app.models import User, Party
+from app.models import User, Party, UserSchema, PartySchema
 from app.forms import (RegistrationForm, LoginForm, UpdateProfileForm,
                          PartyForm, RequestResetForm, ResetPasswordForm)
 from flask_login import login_user, current_user, logout_user, login_required
@@ -254,3 +257,12 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+
+@app.route("/api")
+def api():
+    users = User.query.all()
+    user_schema = UserSchema(many=True)
+    output = user_schema.dump(users)
+    return jsonify({'user' : output})

@@ -78,6 +78,8 @@ inpFileAv.addEventListener("change", function () {
 
 
 var autocomplete;
+var xlng;
+var xlat;
 
 
 
@@ -89,8 +91,6 @@ function initialize() {
 
 
 function initMap() {
-    var xlng = 13.4050;
-var xlat = 52.5200;
     let map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 52.5200, lng: 13.4050 },
         zoom: 12,
@@ -127,11 +127,14 @@ var xlat = 52.5200;
         }
     });
 
-    new google.maps.Marker({
-        position: { lat: xlat, lng: xlng },
-        map,
-        title: "Hello World!",
+    var marker, i;
+    
+    for (i = 0; i < locations.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
       });
+    }
 }
 
 

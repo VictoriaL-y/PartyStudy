@@ -62,11 +62,20 @@
 {% endfor %}
 
 <script>
+    var locations = [ 
+        {% for party in parties %}
+
+            ['{{party.title}}', {{party.lat|float}}, {{party.lng|float}}],
+        
+        {% endfor %}
+    ];
     {% for party in parties %}
-        let xlat = {{party.lat}}
-        let xlng = {{party.lng}}
-    
+
+            xlat = {{party.lat|float}};
+            xlng = {{party.lng|float}};
+        
     {% endfor %}
+    
  console.log('Hello world');
 </script>
 
