@@ -79,7 +79,11 @@
                 <span>Participants</span>
             </div>
             <div class="col-8">
-                <span></span>
+                <span>    
+                    {% for follower in party.followers %}
+                        {{ follower.username }}&nbsp;|&nbsp;
+                    {% endfor %}    
+                </span>
             </div>
 
             <div class="form-group pt-0 mt-2 d-flex align-items-center justify-content-center">

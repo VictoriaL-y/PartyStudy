@@ -232,7 +232,8 @@ input::placeholder {
 }
 
 .form-group .btn:first-of-type:hover, 
-.form-group .btn:first-of-type:active {
+.form-group .btn:first-of-type:active,
+.form-group .btn:first-of-type:focus {
     background-color: rgb(31, 31, 31);
 }
 
@@ -256,6 +257,14 @@ input::placeholder {
     width: var(--profileWidth);
     z-index: 10;
     margin: 4.5vh auto;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.alert.map-alert {
+    width: 90vw;
+    z-index: 10;
+    margin: 0.5vh auto;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
 }
@@ -426,8 +435,13 @@ input::placeholder {
     outline: none;
 }
 
+.profile-container .user-data .leaveParty a {
+    color: #840705;
+}
 .profile-container .user-data .deleteParty button:hover, 
-.profile-container .user-data .deleteParty button:active {
+.profile-container .user-data .leaveParty a:hover,
+.profile-container .user-data .deleteParty button:active
+.profile-container .user-data .leaveParty a:active {
     color: #b02a37;
 }
 
@@ -625,7 +639,7 @@ form.profile-form .back-arrow:active,
   }
 
   /* Filters */
-  .filters {
+  /* .filters {
     width: 330px;
     height: 330px;
     position: absolute;
@@ -699,4 +713,34 @@ form.profile-form .back-arrow:active,
   .filters .btn-filter:focus {
     background-color: rgb(31, 31, 31);
     color: white;
+} */
+
+.map_button {
+    border-color: var(--darkButton);
+    border-radius: 15px;
+    padding: 5px 15px;
+    color: var(--fonts);
+    background-color: var(--darkButton);
+}
+
+.map_button:hover,
+.map_button:active,
+.map_button:focus {
+    color: white;
+    background-color: rgb(31, 31, 31);
+}
+
+a.map_button {
+    text-decoration: none;
+}
+
+.infoWindow {
+    max-width: 320px;
+    max-height: 250px;
+    min-height: 170px;
+    min-width: 150px;
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 15px;
+    padding-bottom: 0;
 }

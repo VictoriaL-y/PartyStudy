@@ -80,10 +80,10 @@ def logout():
 @login_required
 def profile():
     form = PartyForm()
-    page = request.args.get('page', 1, type=int)
-    parties = Party.query.filter(Party.author==current_user).order_by(Party.date_posted.desc()).paginate(page=page, per_page=3)
-    page_2 = request.args.get('page_2', 1, type=int)
-    parties_2 = Party.query.filter(Party.author!=current_user).order_by(Party.date_posted.desc()).paginate(page=page_2, per_page=3)
+    page = request.args.get('page_host', 1, type=int)
+    parties = Party.query.filter(Party.author==current_user).order_by(Party.date_posted.desc()).paginate(page=page, per_page=2)
+    page_2 = request.args.get('page_att', 1, type=int)
+    parties_2 = Party.query.join(User.attending).filter(User.id == current_user.id).order_by(Party.date_posted.desc()).paginate(page=page_2, per_page=2)
     image_avatar_file = url_for('static', filename='profile_pics/' + current_user.image_avatar_file)
     image_bg_file = url_for('static', filename='profile_pics/' + current_user.image_bg_file)
     return render_template("profile.html", title="Profile", image_avatar_file=image_avatar_file, image_bg_file=image_bg_file, parties=parties, parties_2=parties_2, form=form)
@@ -150,12 +150,6 @@ def updateProfile():
     image_bg_file = url_for('static', filename='profile_pics/' + current_user.image_bg_file)
     return render_template("updateProfile.html", title="Updating profile", image_avatar_file=image_avatar_file, image_bg_file=image_bg_file, form=form)
 
-@app.route("/map")
-def map():
-    form = PartyForm()
-    parties = Party.query.order_by(Party.date_posted.desc())
-    return render_template("map.html", form=form, parties=parties)
-
 @app.route("/party/new", methods=['GET', 'POST'])
 @login_required
 def new_party():
@@ -221,6 +215,39 @@ def delete_party(party_id):
     db.session.delete(party)
     db.session.commit()
     flash('Your party has been deleted!', 'success')
+    return redirect(url_for('profile'))
+
+@app.route("/map")
+def map():
+    form = PartyForm()
+    parties = Party.query.order_by(Party.date_posted.desc())
+    return render_template("map.html", form=form, parties=parties)
+
+@app.route("/map/attending/<int:party_id>", methods=['GET', 'POST'])
+@login_required
+def appendUser(party_id):
+    party = Party.query.get_or_404(party_id)
+    current_user.attending.append(party)
+    db.session.commit()
+    flash('Your have joined the party!', 'success')
+    return redirect(url_for('map'))
+
+@app.route("/map/leave/<int:party_id>", methods=['GET', 'POST'])
+@login_required
+def leaveTroughMap(party_id):
+    party = Party.query.get_or_404(party_id)
+    current_user.attending.remove(party)
+    db.session.commit()
+    flash('Your have left the party!', 'danger')
+    return redirect(url_for('map'))
+
+@app.route("/profile/leave/<int:party_id>", methods=['GET', 'POST'])
+@login_required
+def leaveTroughProfile(party_id):
+    party = Party.query.get_or_404(party_id)
+    current_user.attending.remove(party)
+    db.session.commit()
+    flash('Your have left the party!', 'danger')
     return redirect(url_for('profile'))
 
 def send_reset_email(user):

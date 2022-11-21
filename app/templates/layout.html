@@ -44,11 +44,14 @@
             elements_selector: ".lazy"
         });
     </script>
-    <script src="{{ url_for('static', filename='scripts/myscript.js')}}"></script>
+    <script src="{{ url_for('static', filename='scripts/myscript.js')}}">
+        setTimeout(initMap, 3000);
+    </script>
 
     <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHqpKOkQkUoej4vtzDCeZt7IakdCYy2u0&libraries=places&callback=initialize" async
-    defer></script>
+    defer>
+setTimeout(initMap, 3000);</script>
 
 </body>
 </html>

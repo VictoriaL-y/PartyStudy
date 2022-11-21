@@ -2,12 +2,17 @@ from datetime import datetime
 # from flask import jsonify
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from app import db, ma, login_manager, app
-from flask_marshmallow import fields
+# from flask_marshmallow import fields
 from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+association_table = db.Table('association_table',
+    db.Column('user_id', db.Integer, db.ForeignKey('author.id')),
+    db.Column('party_id', db.Integer, db.ForeignKey('party.id'))
+)
 
 class User(db.Model, UserMixin):
     __tablename__ = 'author'
@@ -23,6 +28,8 @@ class User(db.Model, UserMixin):
     image_bg_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     party = db.relationship('Party', backref='author', lazy=True)
+    attending = db.relationship('Party', secondary=association_table, backref="followers")
+    
 
     def get_reset_token(self):
         s = Serializer(app.config['SECRET_KEY'])
@@ -69,6 +76,8 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = User
         load_instance = True
     party = ma.Nested(PartySchema, many=True)
+
+
 
 
     
