@@ -187,6 +187,22 @@ input::placeholder {
     padding-left: 10px;
 }
 
+.form-group .iti.iti--allow-dropdown.iti--separate-dial-code {
+    height: 40px;
+    /* background-color: white;
+    border: 1px solid var(--border);
+    margin-bottom: 15px;
+    width: 400px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    font-size: 1em;
+    padding-left: 10px; */
+}
+
+.iti {
+    display: block !important;
+}
+
 .profile-form .form-control-label {
     margin-top: 10px;
 }
@@ -278,6 +294,10 @@ input::placeholder {
     margin-top: 48px;
     margin-left: 100px;
     
+}
+
+.invalid-feedback {
+    display: block;
 }
 
 /* .form-group .form-group input.form-control.is-invalid {

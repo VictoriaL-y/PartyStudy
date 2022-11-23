@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_bootstrap import Bootstrap5
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -13,6 +14,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+bstr = Bootstrap5(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 app.config['MAIL_SERVER'] = 'smtp.mailtrap.io'

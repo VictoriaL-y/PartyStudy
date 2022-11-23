@@ -26,7 +26,7 @@
         <form class="profile-form" action="" method="POST" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <!-- form-group -->
-            <fieldset class="row px-5 m-0 container-fluid d-flex align-items-center justify-content-start">
+            <fieldset class="row px-5 m-0 container-fluid d-flex justify-content-start">
                 <label for="bg_picture">
                     <i class="fa-solid fa-camera edit-photo edit-photo-bg rounded-circle"></i>
                 </label>
@@ -110,14 +110,15 @@
                     <!-- Phone Number -->
                     {{ form.phoneNumber.label(class="form-control-label pb-1") }}
                     {% if form.phoneNumber.errors %}
-                        {{ form.phoneNumber(class="form-control is-invalid") }}
+                    
+                        {{ form.phoneNumber(class="form-control is-invalid", id="phone") }}
                         <div class="invalid-feedback">
                             {% for error in form.phoneNumber.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.phoneNumber(class="form-control") }}
+                        {{ form.phoneNumber(class="form-control", id="phone") }}
                     {% endif %}
 
                     <!-- Location -->
@@ -165,4 +166,25 @@
     <p>© 2022 Victoria Lipnitsky</p>
     <a href="{{ url_for('map') }}">Explore the map <i class="fa-solid fa-location-dot"></i></a>
 </div>
+
+<!-- A jQuery plugin for entering international telephone numbers -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js" integrity="sha512-+gShyB8GWoOiXNwOlBaYXdLTiZt10Iy6xjACGadpqMs20aJOoh+PJt3bwUVA6Cefe7yF7vblX6QwyXZiVwTWGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+<script>
+    var wtf_phoneNumber_field = document.getElementById('phone');
+    // wtf_phoneNumber_field.style.position = 'absolute';
+    // wtf_phoneNumber_field.style.top = '-9999px';
+    // wtf_phoneNumber_field.style.left = '-9999px';
+    // wtf_phoneNumber_field.parentElement.insertAdjacentHTML('beforeend', '<input type="tel" id="_phone">');
+    var fancy_phone_field = document.getElementById('phone');
+    var fancy_phone_iti = window.intlTelInput(fancy_phone_field, {
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js",
+    });
+    fancy_phone_iti.setNumber(wtf_phoneNumber_field.value);
+    fancy_phone_field.addEventListener('blur', function() {
+        wtf_phoneNumber_field.value = fancy_phone_iti.getNumber();
+        console.log(wtf_phoneNumber_field.value);
+    });
+</script>
 {% endblock %}

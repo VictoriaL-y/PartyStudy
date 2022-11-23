@@ -45,14 +45,16 @@
                     <!-- Date&Time -->
                     {{ form.date_time.label(class="form-control-label pb-1") }}
                     {% if form.date_time.errors %}
-                        {{ form.date_time(class="form-control is-invalid") }}
+                        {{ form.date_time(class="form-control datepicker is-invalid") }}
+                        {{form.hidden_tag()}}
                         <div class="invalid-feedback">
                             {% for error in form.date_time.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.date_time(class="form-control") }}
+                        {{ form.date_time(class="form-control datepicker") }}
+                        {{form.hidden_tag()}}
                     {% endif %}                
                 </div>
 

@@ -5,6 +5,8 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.fields import DateField
+
 from app.models import User
 
 class RegistrationForm(FlaskForm):
@@ -45,7 +47,7 @@ class UpdateProfileForm(FlaskForm):
     surname = StringField('Surname', 
                            validators=[DataRequired(), Length(min=2, max=20)], render_kw={"placeholder": "Enter your family name"})
     phoneNumber = StringField('Phone Number', 
-                           validators=[DataRequired(), Length(min=2, max=15)], render_kw={"placeholder": "What is your tel. number?"})
+                           validators=[DataRequired()], render_kw={"placeholder": "What is your tel. number?"})
     location = StringField('Location', 
                            validators=[DataRequired(), Length(min=2, max=40)], render_kw={"placeholder": "In wich country, city do you live?"})
     languages = StringField('Languages', 
@@ -66,17 +68,17 @@ class UpdateProfileForm(FlaskForm):
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
 
-    def validate_phone(self, phoneNumber):
+    def validate_phoneNumber(self, phoneNumber):
         try:
-            p = phonenumbers.parse(phoneNumber.data)
-            if not phonenumbers.is_valid_number(p):
+            input_number = phonenumbers.parse(phoneNumber.data)
+            if not phonenumbers.is_valid_number(input_number):
                 raise ValueError()
         except (phonenumbers.phonenumberutil.NumberParseException, ValueError):
             raise ValidationError('Invalid phone number')
 
 class PartyForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()], render_kw={"placeholder": "Enter a title"})
-    date_time = StringField('Event Date', validators=[DataRequired()], render_kw={"placeholder": "When will your party start & end?"})
+    date_time = DateField('Event Date', format='%Y-%m-%d', validators=[DataRequired()], render_kw={"placeholder": "When will your party start?"})
     address = StringField('Address', validators=[DataRequired()], render_kw={"placeholder": "Where is you party at?"})
     lng = HiddenField('Lng', validators=[DataRequired()])
     lat = HiddenField('Lat', validators=[DataRequired()])

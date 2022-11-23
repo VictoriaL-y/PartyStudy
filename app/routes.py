@@ -4,11 +4,11 @@ from PIL import Image
 
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from flask_marshmallow import fields
-
+from datetime import datetime
 # from flask_googlemaps import GoogleMaps
 # from flask_googlemaps import Map
 from app import app, db, bcrypt, mail
-from app.models import User, Party, UserSchema, PartySchema
+from app.models import User, Party, UserSchema, PartySchema, UserSchemaWithoutParties, UserSchemaWithoutAttending
 from app.forms import (RegistrationForm, LoginForm, UpdateProfileForm,
                          PartyForm, RequestResetForm, ResetPasswordForm)
 from flask_login import login_user, current_user, logout_user, login_required
@@ -194,7 +194,7 @@ def update_party(party_id):
         return redirect(url_for('party', party_id=party.id))
     elif request.method == 'GET':
         form.title.data = party.title
-        form.date_time.data = party.date_time
+        form.date_time.data = datetime.strptime(party.date_time, '%Y-%m-%d')
         form.address.data = party.address
         form.lat.data = party.lat
         form.lng.data = party.lng
@@ -288,10 +288,47 @@ def reset_token(token):
     return render_template('reset_token.html', title='Reset Password', form=form)
 
 
-
-@app.route("/api")
+@app.route("/api") # The result is all the database data: a list of the users with lists of the parties, which they've created and to which they've joined
 def api():
     users = User.query.all()
     user_schema = UserSchema(many=True)
     output = user_schema.dump(users)
     return jsonify({'user' : output})
+
+@app.route("/api/users") # The result is a list of all the users with the parties, that they have created
+def apiUsers():
+    users = User.query.all()
+    user_schema = UserSchemaWithoutAttending(many=True)
+    output = user_schema.dump(users)
+    return jsonify({'user' : output})
+
+@app.route("/api/parties") # The result is all the parties
+def apiParties():
+    parties = Party.query.all()
+    party_schema = PartySchema(many=True)
+    output = party_schema.dump(parties)
+    return jsonify({'party' : output})
+
+@app.route("/api/<user_id>/parties") # The result is a list of parties, to which the user(with id = user_id) has joined
+def apiPartiesByUser(user_id=1):
+    user = User.query.filter_by(id=user_id).first()
+    parties = user.attending
+    party_schema = PartySchema(many=True)
+    output = party_schema.dump(parties)
+    return jsonify({'party' : output})
+
+@app.route("/api/guests/<party_id>") # The result is a list of users, that have joined the party(with id = party_id)
+def apiGuestsOfParty(party_id=1):
+    party = Party.query.filter_by(id=party_id).first()
+    parties = party.followers
+    user_schema = UserSchemaWithoutParties(many=True)
+    output = user_schema.dump(parties)
+    return jsonify({'user' : output})
+
+@app.route("/api/hostedby/<user_id>") # The result is a list of the parties, that that hosted by user(with id = user_id)
+def apiPartiesByHost(user_id=1):
+    user = User.query.filter_by(id=user_id).first()
+    parties = user.party
+    party_schema = PartySchema(many=True)
+    output = party_schema.dump(parties)
+    return jsonify({'party' : output})

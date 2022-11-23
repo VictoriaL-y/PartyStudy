@@ -76,8 +76,18 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = User
         load_instance = True
     party = ma.Nested(PartySchema, many=True)
+    attending = ma.Nested(PartySchema, many=True)
 
+class UserSchemaWithoutAttending(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        load_instance = True
+    party = ma.Nested(PartySchema, many=True)
 
+class UserSchemaWithoutParties(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        load_instance = True
 
 
     
