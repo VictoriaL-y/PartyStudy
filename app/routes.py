@@ -155,7 +155,7 @@ def updateProfile():
 def new_party():
     form = PartyForm()
     if form.validate_on_submit():
-        party = Party(title=form.title.data, date_time=form.date_time.data, address=form.address.data, lat=form.lat.data, lng=form.lng.data, whatsapp_link=form.whatsapp_link.data, 
+        party = Party(title=form.title.data, date_time=form.date_time.data.strftime('%Y-%m-%d, %H:%M'), address=form.address.data, lat=form.lat.data, lng=form.lng.data, whatsapp_link=form.whatsapp_link.data, 
                     party_languages=form.party_languages.data, description=form.description.data, author=current_user)
         db.session.add(party)
         db.session.commit()
@@ -182,7 +182,7 @@ def update_party(party_id):
     form = PartyForm()
     if form.validate_on_submit():
         party.title = form.title.data
-        party.date_time = form.date_time.data
+        party.date_time = form.date_time.data.strftime('%Y-%m-%d, %H:%M')
         party.address = form.address.data
         party.lat = form.lat.data
         party.lng = form.lng.data
@@ -194,7 +194,7 @@ def update_party(party_id):
         return redirect(url_for('party', party_id=party.id))
     elif request.method == 'GET':
         form.title.data = party.title
-        form.date_time.data = datetime.strptime(party.date_time, '%Y-%m-%d')
+        form.date_time.data = datetime.strptime(party.date_time, '%Y-%m-%d, %H:%M')
         form.address.data = party.address
         form.lat.data = party.lat
         form.lng.data = party.lng

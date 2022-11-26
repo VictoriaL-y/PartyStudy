@@ -5,7 +5,8 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from wtforms.fields import DateField
+from wtforms.fields import DateTimeLocalField
+from datetime import datetime
 
 from app.models import User
 
@@ -78,7 +79,7 @@ class UpdateProfileForm(FlaskForm):
 
 class PartyForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()], render_kw={"placeholder": "Enter a title"})
-    date_time = DateField('Event Date', format='%Y-%m-%d', validators=[DataRequired()], render_kw={"placeholder": "When will your party start?"})
+    date_time = DateTimeLocalField('Event Date', format='%Y-%m-%dT%H:%M', default= datetime.utcnow, render_kw={"placeholder": "When will your party start?"})
     address = StringField('Address', validators=[DataRequired()], render_kw={"placeholder": "Where is you party at?"})
     lng = HiddenField('Lng', validators=[DataRequired()])
     lat = HiddenField('Lat', validators=[DataRequired()])

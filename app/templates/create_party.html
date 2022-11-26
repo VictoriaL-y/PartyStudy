@@ -45,7 +45,7 @@
                     <!-- Date&Time -->
                     {{ form.date_time.label(class="form-control-label pb-1") }}
                     {% if form.date_time.errors %}
-                        {{ form.date_time(class="form-control datepicker is-invalid") }}
+                        {{ form.date_time(class="form-control is-invalid", type="datetime-local") }}
                         {{form.hidden_tag()}}
                         <div class="invalid-feedback">
                             {% for error in form.date_time.errors %}
@@ -53,9 +53,9 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.date_time(class="form-control datepicker") }}
+                        {{ form.date_time(class="form-control", type="datetime-local") }}
                         {{form.hidden_tag()}}
-                    {% endif %}                
+                    {% endif %}             
                 </div>
 
                 <div class="col-lg-6">
@@ -131,7 +131,6 @@
     <p>© 2022 Victoria Lipnitsky</p>
     <a href="{{ url_for('map') }}">Explore the map <i class="fa-solid fa-location-dot"></i></a>
 </div>
-
 <!-- <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHqpKOkQkUoej4vtzDCeZt7IakdCYy2u0&libraries=places&callback=initAutocomplete" defer></script> -->
 {% endblock %}

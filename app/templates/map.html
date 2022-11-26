@@ -14,7 +14,12 @@
 {% endwith %}
 <div id="mapContainer" class="d-flex flex-row justify-content-center align-items-center">
     <!-- <div id="info"></div> -->
+    <div class="show_hide_markers">
+        <input id="hide-markers" type="button" value="Hide my Markers" />
+        <input id="show-markers" type="button" value="Show my Markers" />
+    </div>
     <div id="map"></div>
+    
     <!-- <div class="filters">
         <div>
             <input class="form-control" list="datalistOptions" id="citiesList" placeholder="Select the city...">
@@ -60,21 +65,24 @@
     <p>© 2022 Victoria Lipnitsky</p>
     <a href="">Explore the map <i class="fa-solid fa-location-dot"></i></a>
 </div>
-
-<a target="_blank" href="https://icons8.com/icon/ziC1TV1ikKi9/user-location">User Location</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+<div class="p-0 m-0" style="position:absolute; bottom:0; color:rgb(242, 239, 239);">
+    <a target="_blank" href="https://icons8.com/icon/ziC1TV1ikKi9/user-location" style="text-decoration:none; color:rgb(242, 239, 239);">User Location</a> icon by <a target="_blank" href="https://icons8.com" style="text-decoration:none; color:rgb(242, 239, 239);">Icons8</a>
+</div>
 
 
 <script>
-    var locations = [ 
+    var partyLocations_And_Author = [ 
         {% for party in parties %}
 
-            ['{{party.title}}', {{party.lat|float}}, {{party.lng|float}}, '{{ party.author.username }}',
-             '{{ party.date_time }}', '{{ party.description }}', '{{ party.address }}', '{{ party.party_languages }}', '{{ party.whatsapp_link }}'],
+            ['{{party.title}}', {{party.lat|float}}, {{party.lng|float}}, '{{ party.author.username }}'],
         
         {% endfor %}
     ];
 
-    console.log(locations);
+    var currentUserUsername = '{{ current_user.username }}'
+
+    console.log(partyLocations_And_Author);
+    console.log(currentUserUsername);
 
 
         var infoWindowContent = [ 
