@@ -16,7 +16,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', 
                         validators=[DataRequired(), Email()], render_kw={"placeholder": "Enter your E-mail"})
     password = PasswordField('Password', validators=[DataRequired()], render_kw={"placeholder": "Choose security password"})
-    confirm_password = PasswordField('Password', 
+    confirm_password = PasswordField('Confirm', 
                                      validators=[DataRequired(), EqualTo('password')], render_kw={"placeholder": "Confirm your password"})
     remember = BooleanField('I allow access to my location')  #I need to make boolean be required
     submit = SubmitField('Submit')
@@ -85,7 +85,7 @@ class PartyForm(FlaskForm):
     lat = HiddenField('Lat', validators=[DataRequired()])
     whatsapp_link = StringField("Chat's link", validators=[DataRequired()], render_kw={"placeholder": "Enter a link for the WhatsApp chat"})
     party_languages = StringField("Languages", validators=[DataRequired()], render_kw={"placeholder": "Choose party's languages"})
-    description = TextAreaField('Description', validators=[DataRequired()], render_kw={"placeholder": "Enter a description"})
+    description = TextAreaField('Description', render_kw={"placeholder": "Enter a description"})
     submit = SubmitField('Submit')
 
 class RequestResetForm(FlaskForm):

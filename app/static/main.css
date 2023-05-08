@@ -9,6 +9,7 @@
     --border: rgb(129, 129, 129);
     --windowCol: 230,230,230;
     --profileWidth: calc(800px + 10vw);
+    --marginLeftRight: calc((100vw - 800px - 10vw) / 2);
 }
 
 body {
@@ -84,7 +85,7 @@ body {
 
 .bottomInscription {
     position: absolute;
-    bottom: 1%;
+    bottom: 10px;
 }
 
 .bottomInscription p,
@@ -105,6 +106,11 @@ body {
     margin-right: 0;
     height: 100px;
 }
+
+/* .top-buttons.autorized {
+    position: absolute;
+    right: 10px;
+} */
 
 .top-buttons,
 .btn-container {
@@ -269,12 +275,15 @@ input::placeholder {
     width: 650px;  
 }
 
-.alert.profile-alert {
+.alert.profile-alert, .alert.party-alert {
     width: var(--profileWidth);
     z-index: 10;
-    margin: 4.5vh auto;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
+}
+
+.alert.party-alert {
+    margin: 10vh;
 }
 
 .alert.map-alert {
@@ -326,7 +335,11 @@ input::placeholder {
     color: white;
 }
 
-.profile-container {
+#main-section {
+    position: relative;
+}
+
+/* .profile-container {
     width: var(--profileWidth);
     height: fit-content;
     min-height: 70vh;
@@ -337,11 +350,33 @@ input::placeholder {
     border-radius: 15px;
     overflow-y: scroll;
     border-top: 1rem solid var(--fonts);
+} */
+
+.profile-container {
+    width: var(--profileWidth);
+    height: fit-content;
+    /* min-height: 80vh; */
+    /* min-height: 72vh; */
+    max-height: 85vh;
+    /* margin: 0vh auto 0vh auto; */
+    background-color: rgb(var(--windowCol));
+    font-size: 1.1em;
+    border-radius: 15px;
+    overflow-y: scroll;
+    border-top: 1rem solid var(--fonts);
+    left: var(--marginLeftRight);
+    /* top: 7vh; */
+    position: absolute;
+}
+
+.update-profile-container {
+    margin: 10vh auto 0vh auto;
 }
 
 .profile-container.party {
-    height: fit-content;
-    max-height: 77vh;
+    height: 70vh;
+    max-height: 80vh;
+    margin: 10vh auto 0vh auto;
 }
 
 .profile-backg-img {
@@ -596,7 +631,7 @@ input#avatar_picture, input#bg_picture {
 
 /* Back to pages icons */
 
-form.profile-form, .profile-container.party {
+form.profile-form {
     position: relative;
 }
 
@@ -776,4 +811,14 @@ a.map_button {
     background-color: white;
     border: none;
     padding: 7px 7px;
+}
+
+@media screen and (max-width: 1200px) {
+    .profile-container {
+        max-height: 80vh;
+    }
+
+    .bottomInscription p, .bottomInscription a {
+        font-size: 1.1em;
+    }
 }
